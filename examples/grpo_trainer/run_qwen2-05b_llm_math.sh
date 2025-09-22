@@ -1,8 +1,8 @@
 set -x
 
 
-gsm8k_train_path=$HOME/data/gsm8k/train.parquet
-gsm8k_test_path=$HOME/data/gsm8k/test.parquet
+gsm8k_train_path=data/gsm8k/train.parquet
+gsm8k_test_path=data/gsm8k/test.parquet
 
 train_files="['$gsm8k_train_path']"
 test_files="['$gsm8k_test_path']"
