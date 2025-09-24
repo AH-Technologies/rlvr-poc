@@ -1,8 +1,11 @@
 set -x
 
 
-gsm8k_train_path=data/gsm8k_limit/train.parquet
-gsm8k_test_path=data/gsm8k_limit/test.parquet
+# gsm8k_train_path=data/gsm8k_limit/train.parquet
+# gsm8k_test_path=data/gsm8k_limit/test.parquet
+gsm8k_train_path=data/gsm8k/train.parquet
+gsm8k_test_path=data/gsm8k/test.parquet
+
 
 train_files="['$gsm8k_train_path']"
 test_files="['$gsm8k_test_path']"
@@ -11,7 +14,7 @@ python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
     data.train_files="$train_files" \
     data.val_files="$test_files" \
-    data.train_batch_size=1024 \
+    data.train_batch_size=64 \
     data.max_prompt_length=1024 \
     data.max_response_length=1024 \
     data.filter_overlong_prompts=True \
@@ -44,4 +47,4 @@ python3 -m verl.trainer.main_ppo \
     trainer.nnodes=1 \
     trainer.save_freq=20 \
     trainer.test_freq=5 \
-    trainer.total_epochs=15 $@
+    trainer.total_epochs=1 $@
