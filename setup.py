@@ -24,32 +24,41 @@ with open(os.path.join(version_folder, "verl/version/version")) as f:
     __version__ = f.read().strip()
 
 install_requires = [
+    # Build dependencies first
+    "packaging>=20.0",
+    "wheel",
+    "ninja",
+    # PyTorch ecosystem (specific versions for RunPod compatibility)
+    "torch==2.4.0",
+    "torchdata",
+    # Core ML libraries
     "accelerate",
-    "codetiming",
+    "transformers",
+    "peft",
+    "tensordict>=0.8.0,<=0.10.0,!=0.9.0",
+    # Data handling
     "datasets",
+    "pandas",
+    "pyarrow>=19.0.0",
+    "numpy<2.0.0",
+    # Utilities
+    "codetiming",
     "dill",
     "hydra-core",
-    "numpy<2.0.0",
-    "pandas",
-    "peft",
-    "pyarrow>=19.0.0",
     "pybind11",
     "pylatexenc",
     "ray[default]>=2.41.0",
-    "torchdata",
-    "tensordict>=0.8.0,<=0.10.0,!=0.9.0",
-    "transformers",
     "wandb",
-    "packaging>=20.0",
     "tensorboard",
 ]
 
 TEST_REQUIRES = ["pytest", "pre-commit", "py-spy", "pytest-asyncio"]
 PRIME_REQUIRES = ["pyext"]
 GEO_REQUIRES = ["mathruler", "torchvision", "qwen_vl_utils"]
-GPU_REQUIRES = ["liger-kernel", "flash-attn"]
-MATH_REQUIRES = ["math-verify"]  # Add math-verify as an optional dependency
-VLLM_REQUIRES = ["tensordict>=0.8.0,<=0.10.0,!=0.9.0", "vllm>=0.7.3,<=0.9.1"]
+GPU_REQUIRES = ["liger-kernel", "flash-attn==2.6.2"]
+MATH_REQUIRES = ["math-verify", "latex2sympy2_extended"]
+VLLM_REQUIRES = ["tensordict>=0.8.0,<=0.10.0,!=0.9.0", "vllm==0.5.5"]
+FASTAPI_REQUIRES = ["fastapi", "uvicorn"]
 SGLANG_REQUIRES = [
     "tensordict>=0.8.0,<=0.10.0,!=0.9.0",
     "sglang[srt,openai]==0.4.10.post2",
@@ -68,6 +77,10 @@ extras_require = {
     "sglang": SGLANG_REQUIRES,
     "trl": TRL_REQUIRES,
     "mcore": MCORE_REQUIRES,
+    "fastapi": FASTAPI_REQUIRES,
+    # Convenience combinations for RunPod
+    "runpod": GPU_REQUIRES + VLLM_REQUIRES + MATH_REQUIRES + FASTAPI_REQUIRES,
+    "all": GPU_REQUIRES + VLLM_REQUIRES + MATH_REQUIRES + FASTAPI_REQUIRES + GEO_REQUIRES,
 }
 
 
@@ -94,3 +107,4 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
 )
+
